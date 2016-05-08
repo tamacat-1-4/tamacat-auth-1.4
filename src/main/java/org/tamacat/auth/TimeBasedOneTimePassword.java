@@ -16,7 +16,9 @@ public class TimeBasedOneTimePassword implements OneTimePassword {
 	protected String algorithm = "HmacSHA256";
 	protected String timeFormat = "yyyyMMddHHmm";
 	protected int oneTimePasswordPeriod = 15; //min
-
+	protected int timeUnit = Calendar.MINUTE;
+	protected boolean caseSensitive = true;
+	
 	@Override
 	public void setTimeFormat(String timeFormat) {
 		this.timeFormat = timeFormat;
@@ -27,11 +29,24 @@ public class TimeBasedOneTimePassword implements OneTimePassword {
 		this.algorithm = algorithm;
 	}
 	
+	@Override
+	/**
+	 * Calendar.MINUTE | Calendar.HOUR | Calendar.DATE;
+	 * Default: Calendar.MINUTE
+	 */
+	public void setTimeUnit(int timeUnit) {
+		this.timeUnit = timeUnit;
+	}
+	
 	public String generate(String secret, Date date) {
 		String time = DateUtils.getTime(date, timeFormat);
 		String pw = EncryptionUtils.getMac(time, secret, algorithm);
 		//LOG.debug(time+"="+pw);
-		return pw;
+		if (caseSensitive) {
+			return pw;
+		} else {
+			return pw.toLowerCase();
+		}
 	}
 	
 	@Override
@@ -39,7 +54,11 @@ public class TimeBasedOneTimePassword implements OneTimePassword {
 		String time = DateUtils.getTimestamp(timeFormat);
 		String pw = EncryptionUtils.getMac(time, secret, algorithm);
 		//LOG.debug(time+"="+pw);
-		return pw;
+		if (caseSensitive) {
+			return pw;
+		} else {
+			return pw.toLowerCase();
+		}
 	}
 	
 	@Override
@@ -48,15 +67,23 @@ public class TimeBasedOneTimePassword implements OneTimePassword {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date());
 		int period = oneTimePasswordPeriod;
-		cal.add(Calendar.MINUTE, -period);
+		cal.add(timeUnit, -period);
 		for (int i=0; i<=period*2; i++) {
 			String time = DateUtils.getTime(cal.getTime(),timeFormat);
 			String pw = EncryptionUtils.getMac(time, secret, algorithm);
 			//LOG.debug(time+" ["+id+"]=["+pw +"] result="+pw.equals(id));
-			hash.add(pw);
-			cal.add(Calendar.MINUTE, 1);
+			if (caseSensitive) {
+				hash.add(pw);
+			} else {
+				hash.add(pw.toLowerCase());
+			}
+			cal.add(timeUnit, 1);
 		}
-		return hash.contains(id);
+		if (caseSensitive) {
+			return hash.contains(id);
+		} else {
+			return hash.contains(id.toLowerCase());
+		}
 	}
 	
 	/**
@@ -65,5 +92,10 @@ public class TimeBasedOneTimePassword implements OneTimePassword {
 	 */
 	public void setOneTimePasswordPeriod(int oneTimePasswordPeriod) {
 		this.oneTimePasswordPeriod = oneTimePasswordPeriod;
+	}
+
+	@Override
+	public void setCaseSensitive(boolean caseSensitive) {
+		this.caseSensitive = caseSensitive;
 	}
 }
