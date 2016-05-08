@@ -1,0 +1,7 @@
+Implementation-Title: tamacat-auth
+Implementation-Version: 1.3
+Bundle-ManifestVersion: 2
+Bundle-SymbolicName: org.tamacat
+Bundle-Name: tamacat-auth
+Bundle-Vendor: TAMACAT.ORG
+Bundle-Version: 1.3
