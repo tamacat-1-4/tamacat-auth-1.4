@@ -63,6 +63,7 @@ public class TimeBasedOneTimePassword implements OneTimePassword {
 	
 	@Override
 	public boolean check(String secret, String id) {
+		if (id == null) return false;
 		Set<String> hash = new HashSet<>();
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date());
