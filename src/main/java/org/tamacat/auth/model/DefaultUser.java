@@ -16,7 +16,7 @@ import org.tamacat.dao.meta.DefaultTable;
 import org.tamacat.dao.orm.MapBasedORMappingBean;
 import org.tamacat.util.StringUtils;
 
-public class DefaultUser extends MapBasedORMappingBean implements UserRole, CacheSupportLoginUser {
+public class DefaultUser extends MapBasedORMappingBean<DefaultUser> implements UserRole, CacheSupportLoginUser {
 	private static final long serialVersionUID = 1L;
 
 	protected DefaultTable table;

@@ -6,9 +6,9 @@ package org.tamacat.auth.model;
 
 import java.io.Serializable;
 
-import org.tamacat.dao.orm.ORMappingSupport;
+//import org.tamacat.dao.orm.ORMappingSupport;
 
-public interface LoginUser extends ORMappingSupport, Serializable {
+public interface LoginUser extends /* ORMappingSupport<LoginUser>,*/ Serializable {
 
 	String getUserId();
 	
@@ -25,4 +25,5 @@ public interface LoginUser extends ORMappingSupport, Serializable {
 	String toJson();
 
 	Object get(Object name);
+	Object put(String name, Object value);
 }
