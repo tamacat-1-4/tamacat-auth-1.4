@@ -26,6 +26,8 @@ public class DefaultUser extends MapBasedORMappingBean<DefaultUser> implements U
 	protected long createTime = System.currentTimeMillis();
 
 	String tableName;
+	String tidKey;
+	String idKey;
 	String userKey;
 	String passwordKey;
 	String saltKey;
@@ -36,10 +38,19 @@ public class DefaultUser extends MapBasedORMappingBean<DefaultUser> implements U
 	
 	public DefaultUser() {}
 	
-	public DefaultUser(String tableName, String userKey, String passwordKey,
+//	@Deprecated
+//	public DefaultUser(String tableName, String userKey, String passwordKey,
+//			String saltKey, String roleKey, String lastLoginKey, 
+//			String multiLoginKey, String loginStatusKey, String... columns) {
+//		this(tableName, null, null, userKey, passwordKey, saltKey, roleKey, lastLoginKey, multiLoginKey, loginStatusKey, columns);
+//	}
+	
+	public DefaultUser(String tableName, String tidKey, String idKey, String userKey, String passwordKey,
 			String saltKey, String roleKey, String lastLoginKey, 
 			String multiLoginKey, String loginStatusKey, String... columns) {
 		this.tableName = tableName;
+		this.tidKey = tidKey;
+		this.idKey = idKey;
 		this.userKey = userKey;
 		this.passwordKey = passwordKey;
 		this.saltKey = saltKey;
@@ -105,7 +116,17 @@ public class DefaultUser extends MapBasedORMappingBean<DefaultUser> implements U
 			return true;
 		}
 	}
-
+	
+	@Override
+	public String getTid() {
+		return val(getColumn(tidKey));
+	}
+	
+	@Override
+	public String getId() {
+		return val(getColumn(idKey));
+	}
+	
 	@Override
 	public String getUserId() {
 		return val(getColumn(userKey));

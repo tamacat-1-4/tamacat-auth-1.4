@@ -22,10 +22,10 @@ public class UserProfileUtilsTest {
 
 	@Test
 	public void testGetProfile() {
-		String json = "{\"user_id\":\"test@tamacat.org\",\"role\":\"user\",\"last_login\":\"2015-01-01 00:00:00.0\",\"multi_login\":\"1\",\"login_status\":\"logout\",\"username\":\"Test User\",\"email\":\"test@tamacat.org\"}";
+		String json = "{\"tid\":\"tamacat.org\",\"id\":\"123\",\"user_id\":\"test@tamacat.org\",\"role\":\"user\",\"last_login\":\"2015-01-01 00:00:00.0\",\"multi_login\":\"1\",\"login_status\":\"logout\",\"username\":\"Test User\",\"email\":\"test@tamacat.org\"}";
 		String profile = EncryptSessionUtils.encryptSession(json);
 		
-		LoginUser loginUser = new DefaultUser("users","user_id","password","salt","role","last_login","multi_login","login_status");
+		LoginUser loginUser = new DefaultUser("users","tid","id","user_id","password","salt","role","last_login","multi_login","login_status");
 		Set<String> columns = new LinkedHashSet<>();
 		columns.add("user_id");
 		columns.add("username");

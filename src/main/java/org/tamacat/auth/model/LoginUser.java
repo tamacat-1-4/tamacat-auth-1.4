@@ -10,8 +10,28 @@ import java.io.Serializable;
 
 public interface LoginUser extends /* ORMappingSupport<LoginUser>,*/ Serializable {
 
+	/**
+	 * Internal Unique ID
+	 * @since 1.4
+	 */
+	String getId();
+	
+	/**
+	 * Tenant ID
+	 * @since 1.4
+	 */
+	String getTid();
+	
+	/**
+	 * Login ID
+	 * @return
+	 */
 	String getUserId();
 	
+	/**
+	 * Password
+	 * @return
+	 */
 	String getPassword();
 	
 	String getSalt();
