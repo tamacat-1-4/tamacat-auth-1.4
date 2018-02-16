@@ -30,7 +30,7 @@ import org.tamacat.log.LogFactory;
  *
  * @author Dave Syer
  */
-public class BCryptPasswordEncoder {
+public class BCryptPasswordEncoder implements PasswordEncoder {
 	private Pattern BCRYPT_PATTERN = Pattern
 			.compile("\\A\\$2a?\\$\\d\\d\\$[./0-9A-Za-z]{53}");
 	private final Log logger = LogFactory.getLog(getClass());
@@ -63,6 +63,7 @@ public class BCryptPasswordEncoder {
 		this.random = random;
 	}
 
+	@Override
 	public String encode(CharSequence rawPassword) {
 		String salt;
 		if (strength > 0) {
@@ -79,6 +80,7 @@ public class BCryptPasswordEncoder {
 		return BCrypt.hashpw(rawPassword.toString(), salt);
 	}
 
+	@Override
 	public boolean matches(CharSequence rawPassword, String encodedPassword) {
 		if (encodedPassword == null || encodedPassword.length() == 0) {
 			logger.warn("Empty encoded password");

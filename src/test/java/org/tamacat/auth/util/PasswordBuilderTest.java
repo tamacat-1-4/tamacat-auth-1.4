@@ -9,8 +9,10 @@ import static org.junit.Assert.*;
 import java.util.Base64;
 
 import org.junit.Test;
+import org.tamacat.auth.util.PasswordBuilder;
 import org.tamacat.util.EncryptionUtils;
 
+@Deprecated
 public class PasswordBuilderTest {
 
 	@Test

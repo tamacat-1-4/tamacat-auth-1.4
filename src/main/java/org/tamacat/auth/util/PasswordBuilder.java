@@ -15,6 +15,10 @@ import javax.crypto.spec.PBEKeySpec;
 import org.tamacat.util.StringUtils;
 import org.tamacat.util.UniqueCodeGenerator;
 
+/**
+ * @see org.tamacat.auth.crypt.PasswordEncoder
+ */
+@Deprecated
 public class PasswordBuilder {
 	
 	String algorithm = "PBKDF2WithHmacSHA256";

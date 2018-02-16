@@ -39,7 +39,7 @@ import org.tamacat.auth.util.Utf8;
  * @author Rob Winch
  * @since 4.1
  */
-public class Pbkdf2PasswordEncoder {
+public class Pbkdf2PasswordEncoder implements PasswordEncoder {
 
 	private static final int DEFAULT_HASH_WIDTH = 256;
 	private static final int DEFAULT_ITERATIONS = 185000;
@@ -88,6 +88,16 @@ public class Pbkdf2PasswordEncoder {
 	}
 
 	/**
+	 * Sets the algorithm and return this Object.
+	 * @param secretKeyFactoryAlgorithm PBKDF2WithHmacSHA1, PBKDF2WithHmacSHA256, PBKDF2WithHmacSHA512
+	 * @author tamacat.org
+	 */
+	public Pbkdf2PasswordEncoder algorithm(String secretKeyFactoryAlgorithm) {
+		setAlgorithm(SecretKeyFactoryAlgorithm.valueOf(secretKeyFactoryAlgorithm));
+		return this;
+	}
+	
+	/**
 	 * Sets the algorithm to use. See
 	 * <a href="http://docs.oracle.com/javase/8/docs/technotes/guides/security/StandardNames.html#SecretKeyFactory">SecretKeyFactory Algorithms</a>
 	 * @param secretKeyFactoryAlgorithm the algorithm to use (i.e.
@@ -120,7 +130,7 @@ public class Pbkdf2PasswordEncoder {
 		this.encodeHashAsBase64 = encodeHashAsBase64;
 	}
 
-	//@Override
+	@Override
 	public String encode(CharSequence rawPassword) {
 		byte[] salt = this.saltGenerator.generateKey();
 		byte[] encoded = encode(rawPassword, salt);
@@ -134,7 +144,7 @@ public class Pbkdf2PasswordEncoder {
 		return String.valueOf(Hex.encode(bytes));
 	}
 
-	//@Override
+	@Override
 	public boolean matches(CharSequence rawPassword, String encodedPassword) {
 		byte[] digested = decode(encodedPassword);
 		byte[] salt = EncodingUtils.subArray(digested, 0, this.saltGenerator.getKeyLength());
