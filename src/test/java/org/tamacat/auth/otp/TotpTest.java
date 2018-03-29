@@ -1,9 +1,10 @@
-package org.tamacat.auth.util;
+package org.tamacat.auth.otp;
 
 import org.junit.Test;
 import org.tamacat.auth.otp.Totp;
+import org.tamacat.auth.util.Base32;
 
-public class Totp_Test {
+public class TotpTest {
 	String secret = "2ZDZXLT7CJ3O5M3L"; //Base32 encoded
 
 	@Test
