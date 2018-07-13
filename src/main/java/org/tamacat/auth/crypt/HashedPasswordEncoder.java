@@ -2,7 +2,8 @@ package org.tamacat.auth.crypt;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
+
+import org.tamacat.auth.util.Hex;
 
 public class HashedPasswordEncoder implements PasswordEncoder {
 
@@ -31,7 +32,8 @@ public class HashedPasswordEncoder implements PasswordEncoder {
         try {
         	MessageDigest messageDigest = MessageDigest.getInstance(algorithm);
             messageDigest.update(value.getBytes());
-            return Base64.getUrlEncoder().encodeToString(messageDigest.digest());
+            //return Base64.getUrlEncoder().encodeToString(messageDigest.digest());
+            return new String(Hex.encode(messageDigest.digest()));
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
