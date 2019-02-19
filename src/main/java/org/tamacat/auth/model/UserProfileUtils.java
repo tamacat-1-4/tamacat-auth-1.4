@@ -4,8 +4,10 @@ import java.io.ByteArrayInputStream;
 import java.util.Collection;
 
 import javax.json.Json;
+import javax.json.JsonNumber;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
+import javax.json.JsonValue.ValueType;
 
 import org.tamacat.auth.util.EncryptSessionUtils;
 import org.tamacat.dao.meta.Column;
@@ -25,9 +27,18 @@ public class UserProfileUtils {
 			JsonReader reader = Json.createReader(new ByteArrayInputStream(json.getBytes("UTF-8")));
 			JsonObject obj = reader.readObject();
 			for (String col : columns) {
-				String value = obj.getString(col, "");
-				if (StringUtils.isNotEmpty(value)) {
-					loginUser.put(col, value);
+				if (obj.get(col) == null) continue;
+				ValueType type = obj.get(col).getValueType();
+				if (type == ValueType.STRING) {
+					String value = obj.getString(col, "");
+					if (StringUtils.isNotEmpty(value)) {
+						loginUser.put(col, value);
+					}
+				} else if (type == ValueType.NUMBER) {
+					JsonNumber value = obj.getJsonNumber(col);
+					if (value != null) {
+						loginUser.put(col, value.longValue());
+					}
 				}
 			}
 		} catch (Exception e) {
@@ -45,9 +56,18 @@ public class UserProfileUtils {
 			JsonReader reader = Json.createReader(new ByteArrayInputStream(json.getBytes("UTF-8")));
 			JsonObject obj = reader.readObject();
 			for (Column col : columns) {
-				String value = obj.getString(col.getName(), "");
-				if (StringUtils.isNotEmpty(value)) {
-					loginUser.val(col, value);
+				if (obj.get(col.getName()) == null) continue;
+				ValueType type = obj.get(col.getName()).getValueType();
+				if (type == ValueType.STRING) {
+					String value = obj.getString(col.getName(), "");
+					if (StringUtils.isNotEmpty(value)) {
+						loginUser.val(col, value);
+					}
+				} else if (type == ValueType.NUMBER) {
+					JsonNumber value = obj.getJsonNumber(col.getName());
+					if (value != null) {
+						loginUser.val(col, value.longValue());
+					}
 				}
 			}
 		} catch (Exception e) {

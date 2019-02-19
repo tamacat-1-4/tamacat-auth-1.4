@@ -1,5 +1,5 @@
 Implementation-Title: tamacat-auth
-Implementation-Version: 1.4-20180713
+Implementation-Version: 1.4-20190219
 Bundle-ManifestVersion: 2
 Bundle-SymbolicName: org.tamacat
 Bundle-Name: tamacat-auth
